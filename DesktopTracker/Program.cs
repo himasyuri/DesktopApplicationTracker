@@ -12,18 +12,20 @@ int defaultDelay = 1;
 Console.WriteLine($"Send to url: {settings?.SendTo}");
 Console.WriteLine($"Timestamp:{settings?.Delay}");
 Console.WriteLine($"AuthKey:{settings?.AuthKey}");
-Console.WriteLine("1. Start  2.Change setting");
+Console.WriteLine("1. Start  2.Change settings");
 
 var input = Console.ReadLine();
 
 switch (input)
 {
-    case "1": Console.WriteLine("Start work"); break;
+    case "1":
+        Console.WriteLine("Start work"); break;
 
     case "2":
+        var previous = settings.SendTo;
         Console.WriteLine("Write value of url:");
         var url = Console.ReadLine();
-        settings.SendTo = url ?? string.Empty;
+        settings.SendTo = url == string.Empty ? previous : url ?? string.Empty;
 
         Console.WriteLine("Write value of timestamp:");
         var delay = Console.ReadLine();
@@ -31,7 +33,8 @@ switch (input)
 
         Console.WriteLine("Write value of auth key:");
         var authKey = Console.ReadLine();
-        settings.AuthKey = authKey ?? string.Empty;
+        previous = settings.AuthKey;
+        settings.AuthKey = authKey == string.Empty ? previous : authKey ?? string.Empty;
 
         ChangeSettings(config);
 
