@@ -118,7 +118,7 @@ public static partial class Program
 
             Console.WriteLine(json);
 
-            // await Sender.SendToServer(json, settings, true);
+            await Sender.SendToServer(json, settings, true);
         }
     }
 }
