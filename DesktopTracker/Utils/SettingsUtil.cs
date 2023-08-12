@@ -9,6 +9,11 @@
         {
             IJsonUtil jsonUtil = new JsonUtil();
 
+            if (!File.Exists(FileName))
+            {
+                CreateConfig();
+            }
+
             var json = File.ReadAllText(FileName);
 
             return jsonUtil.JsonToItem<T>(json);
@@ -19,6 +24,25 @@
             IJsonUtil jsonUtil = new JsonUtil();
 
             jsonUtil.JsonToFile<T>(sender, FileName, format);
+        }
+
+        private static void CreateConfig()
+        {
+            using (StreamWriter sw = new StreamWriter(FileName, true))
+            {
+                string json =
+                    $$"""
+                    {
+                        "Settings": {
+                            "SendTo": "https://",
+                            "Timestamp": "",
+                            "AuthKey":  ""
+                        }
+                    }
+                    """;
+
+                sw.WriteLine(json);
+            }
         }
     }
 }
