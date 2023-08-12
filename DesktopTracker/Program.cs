@@ -7,9 +7,10 @@ using System.Text;
 
 var config = SettingsUtil.ReadConfiguration<Config>();
 var settings = config.Settings;
+int defaultDelay = 1;
 
 Console.WriteLine($"Send to url: {settings?.SendTo}");
-Console.WriteLine($"Timestamp:{settings?.Timestamp}");
+Console.WriteLine($"Timestamp:{settings?.Delay}");
 Console.WriteLine($"AuthKey:{settings?.AuthKey}");
 Console.WriteLine("1. Start  2.Change setting");
 
@@ -25,8 +26,8 @@ switch (input)
         settings.SendTo = url ?? string.Empty;
 
         Console.WriteLine("Write value of timestamp:");
-        var timestamp = Console.ReadLine();
-        settings.Timestamp = timestamp ?? string.Empty;
+        var delay = Console.ReadLine();
+        settings.Delay = delay == string.Empty ? defaultDelay : float.Parse(delay);
 
         Console.WriteLine("Write value of auth key:");
         var authKey = Console.ReadLine();
@@ -42,11 +43,11 @@ switch (input)
     default: throw new ArgumentException("InvalidInput");
 }
 
-int delay = Convert.ToInt32(Convert.ToDouble(settings?.Timestamp) * 6 * Math.Pow(10, 4)); // minutes to miliseconds
+int delayMs = Convert.ToInt32(Convert.ToDouble(settings?.Delay) * 6 * Math.Pow(10, 4)); // minutes to miliseconds
 
 CancellationTokenSource cancelTokenSource = new CancellationTokenSource();
 CancellationToken token = cancelTokenSource.Token;
-Task start = Task.Run(() => Start(settings, delay), token);
+Task start = Task.Run(() => Start(settings, delayMs), token);
 
 Console.WriteLine("Press any key to stop this app");
 input = Console.ReadLine();
@@ -113,7 +114,6 @@ public static partial class Program
             {
                 WindowName = nameOfWindow ?? string.Empty,
                 ProcessName = nameOfProcess ?? string.Empty,
-                TimeStamp = settings?.Timestamp ?? string.Empty,
             };
 
             string json = JsonConvert.SerializeObject(rq);
