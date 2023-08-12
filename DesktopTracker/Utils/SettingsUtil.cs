@@ -35,7 +35,7 @@
                     {
                         "Settings": {
                             "SendTo": "https://",
-                            "Timestamp": "",
+                            "Delay": 1,
                             "AuthKey":  ""
                         }
                     }
