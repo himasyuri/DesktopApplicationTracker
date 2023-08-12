@@ -35,6 +35,8 @@ switch (input)
         ChangeSettings(config);
 
         settings = SettingsUtil.ReadConfiguration<Config>().Settings;
+
+        Console.WriteLine("Start work");
         break;
 
     default: throw new ArgumentException("InvalidInput");
