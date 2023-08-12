@@ -11,6 +11,6 @@ namespace DesktopTracker.Models
         public string ProcessName { get; set; } = string.Empty;
 
         [JsonProperty("timestamp")]
-        public string TimeStamp { get; set; } = string.Empty;
+        public DateTime TimeStamp { get; set; } = DateTime.UtcNow;
     }
 }
